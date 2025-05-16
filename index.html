@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoRide - Car Booking Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .video-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            padding: 20px 0;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: #4CAF50;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #4CAF50;
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+        }
+        
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .booking-form {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .booking-form h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #4CAF50;
+            color: #fff;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .btn:hover {
+            background: #3e8e41;
+            transform: translateY(-2px);
+        }
+        
+        .features {
+            padding: 80px 0;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .section-title {
+            font-size: 36px;
+            margin-bottom: 60px;
+        }
+        
+        .features-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .feature-box {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .feature-box h3 {
+            font-size: 22px;
+            margin: 15px 0;
+        }
+        
+        .feature-box p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: #4CAF50;
+        }
+        
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 36px;
+            }
+            nav {
+                display: none;
+            }
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="nature.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <a href="#" class="logo">Eco<span>Ride</span></a>
+                <nav>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Cars</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Explore Nature With Our Premium Car Rentals</h1>
+                <p>Book your eco-friendly vehicle today and embark on an unforgettable journey through the most scenic routes. We offer a wide range of vehicles to suit your adventure needs.</p>
+
+                <div class="booking-form">
+                    <h2>Book Your Car Now</h2>
+                    <form id="car-booking-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pickup-location">Pickup Location</label>
+                                <input type="text" id="pickup-location" placeholder="Enter pickup location">
+                            </div>
+                            <div class="form-group">
+                                <label for="dropoff-location">Drop-off Location</label>
+                                <input type="text" id="dropoff-location" placeholder="Enter drop-off location">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="pickup-date">Pickup Date</label>
+                                <input type="date" id="pickup-date">
+                            </div>
+                            <div class="form-group">
+                                <label for="return-date">Return Date</label>
+                                <input type="date" id="return-date">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="car-type">Car Type</label>
+                            <select id="car-type">
+                                <option value="">Select car type</option>
+                                <option value="economy">Economy</option>
+                                <option value="compact">Compact</option>
+                                <option value="suv">SUV</option>
+                                <option value="luxury">Luxury</option>
+                                <option value="electric">Electric</option>
+                                <option value="hybrid">Hybrid</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn">Search Available Cars</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose EcoRide</h2>
+
+            <div class="features-container">
+                <div class="feature-box">
+                    <div class="feature-icon">♻️</div>
+                    <h3>Eco-Friendly Fleet</h3>
+                    <p>Our fleet includes electric and hybrid vehicles to minimize environmental impact while you explore nature's beauty. All our vehicles meet the strictest emissions standards and many are powered by renewable energy sources.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Flexible Booking</h3>
+                    <p>Change or cancel your reservation up to 24 hours before pickup with no additional fees. Our hassle-free booking system ensures you never have to worry about unexpected changes to your travel plans.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">🛣️</div>
+                    <h3>Scenic Route Planning</h3>
+                    <p>Get custom itineraries for the most breathtaking natural landscapes in the region. Our local experts curate routes that take you through hidden gems and spectacular viewpoints most tourists never discover.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="car-categories" style="padding: 80px 0; background: rgba(0, 0, 0, 0.6);">
+        <div class="container">
+            <h2 class="section-title">Our Vehicle Selection</h2>
+            <p style="text-align: center; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">Discover our diverse range of vehicles perfect for any adventure. From compact city cars to rugged SUVs designed for off-road exploration, we have the ideal vehicle for your journey.</p>
+
+            <div class="features-container">
+                <div class="feature-box">
+                    <div class="feature-icon">🚗</div>
+                    <h3>Economy & Compact</h3>
+                    <p>Fuel-efficient and easy to maneuver, our economy and compact cars are perfect for city exploration and countryside drives on well-maintained roads. Ideal for solo travelers and couples.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">🚙</div>
+                    <h3>SUVs & Crossovers</h3>
+                    <p>Tackle any terrain with our selection of SUVs and crossovers. These vehicles offer extra space for luggage, superior comfort for longer journeys, and the capability to venture off the beaten path.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Electric & Hybrid</h3>
+                    <p>Reduce your carbon footprint while exploring nature's wonders. Our electric and hybrid options provide quiet, clean transportation with charging stations mapped along popular routes.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">✨</div>
+                    <h3>Luxury Models</h3>
+                    <p>Indulge in premium comfort with our luxury vehicle selection. Experience the perfect blend of performance, sophisticated technology, and elegant design as you travel in style.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works" style="padding: 80px 0; text-align: center; background: rgba(0, 0, 0, 0.5);">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; max-width: 1000px; margin: 0 auto;">
+                <div style="flex: 1; min-width: 200px; padding: 20px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: #4CAF50; color: white; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; font-size: 24px; font-weight: bold;">1</div>
+                    <h3>Book Online</h3>
+                    <p>Select your pickup and return locations, dates, and preferred vehicle type through our easy-to-use booking system.</p>
+                </div>
+
+                <div style="flex: 1; min-width: 200px; padding: 20px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: #4CAF50; color: white; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; font-size: 24px; font-weight: bold;">2</div>
+                    <h3>Confirm Details</h3>
+                    <p>Review your booking details, add any extras like GPS or child seats, and complete the secure payment process.</p>
+                </div>
+
+                <div style="flex: 1; min-width: 200px; padding: 20px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: #4CAF50; color: white; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; font-size: 24px; font-weight: bold;">3</div>
+                    <h3>Pickup Vehicle</h3>
+                    <p>Arrive at the pickup location, present your confirmation details, and quickly complete the necessary paperwork.</p>
+                </div>
+
+                <div style="flex: 1; min-width: 200px; padding: 20px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: #4CAF50; color: white; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; font-size: 24px; font-weight: bold;">4</div>
+                    <h3>Enjoy Your Journey</h3>
+                    <p>Hit the road and explore with confidence, backed by our 24/7 roadside assistance and customer support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials" style="padding: 80px 0; background: rgba(0, 0, 0, 0.7);">
+        <div class="container">
+            <h2 class="section-title">What Our Customers Say</h2>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
+                <div style="flex: 1; min-width: 300px; max-width: 400px; background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 10px; position: relative;">
+                    <div style="font-size: 36px; color: rgba(76, 175, 80, 0.3); position: absolute; top: 20px; left: 20px;">"</div>
+                    <p style="margin-bottom: 20px; position: relative; z-index: 1;">The scenic route suggestions were incredible! We discovered hidden waterfalls and viewpoints we would have never found on our own. The electric SUV was perfect for our family adventure.</p>
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background: #4CAF50; margin-right: 15px;"></div>
+                        <div>
+                            <h4 style="margin: 0;">Sarah Johnson</h4>
+                            <p style="margin: 0; opacity: 0.7;">Family Trip to Mountain Range</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="flex: 1; min-width: 300px; max-width: 400px; background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 10px; position: relative;">
+                    <div style="font-size: 36px; color: rgba(76, 175, 80, 0.3); position: absolute; top: 20px; left: 20px;">"</div>
+                    <p style="margin-bottom: 20px; position: relative; z-index: 1;">The booking process was seamless, and when our plans changed last minute, EcoRide's customer service was incredibly accommodating. Will definitely book with them again!</p>
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background: #4CAF50; margin-right: 15px;"></div>
+                        <div>
+                            <h4 style="margin: 0;">Michael Chen</h4>
+                            <p style="margin: 0; opacity: 0.7;">Weekend Coastal Drive</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="flex: 1; min-width: 300px; max-width: 400px; background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 10px; position: relative;">
+                    <div style="font-size: 36px; color: rgba(76, 175, 80, 0.3); position: absolute; top: 20px; left: 20px;">"</div>
+                    <p style="margin-bottom: 20px; position: relative; z-index: 1;">As someone passionate about environmental conservation, I was thrilled to find a car rental service with such a strong commitment to sustainability. The hybrid vehicle performed flawlessly.</p>
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background: #4CAF50; margin-right: 15px;"></div>
+                        <div>
+                            <h4 style="margin: 0;">Emma Martinez</h4>
+                            <p style="margin: 0; opacity: 0.7;">National Park Exploration</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="special-offers" style="padding: 80px 0; background: rgba(0, 0, 0, 0.5);">
+        <div class="container">
+            <h2 class="section-title">Special Offers</h2>
+            <p style="text-align: center; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">Take advantage of our limited-time promotions and seasonal discounts to make your journey even more affordable.</p>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
+                <div style="flex: 1; min-width: 300px; max-width: 380px; background: rgba(76, 175, 80, 0.2); padding: 30px; border-radius: 10px; border: 1px solid rgba(76, 175, 80, 0.5);">
+                    <div style="background: #4CAF50; color: white; display: inline-block; padding: 5px 15px; border-radius: 30px; font-size: 14px; margin-bottom: 15px;">MOST POPULAR</div>
+                    <h3 style="font-size: 24px; margin-bottom: 15px;">Weekend Escape</h3>
+                    <p style="margin-bottom: 20px;">Book any vehicle for a weekend (Friday to Monday) and save 25% on the regular rate. Free GPS navigation included.</p>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 25px;">
+                        <li style="margin-bottom: 10px; display: flex; align-items: center;"><span style="color: #4CAF50; margin-right: 10px;">✓</span> 25% discount on base rate</li>
+                        <li style="margin-bottom: 10px; display: flex; align-items: center;"><span style="color: #4CAF50; margin-right: 10px;">✓</span> Free GPS navigation</li>
+                        <li style="margin-bottom: 10px; display: flex; align-items: center;"><span style="color: #4CAF50; margin-right: 10px;">✓</span> No mileage restrictions</li>
+                    </ul>
+                    <button style="background: #4CAF50; color: white; border: none; padding: 12px 30px; border-radius: 5px; font-weight: bold; width: 100%; cursor: pointer;">Book This Offer</button>
+                </div>
+
+                <div style="flex: 1; min-width: 300px; max-width: 380px; background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.2);">
+                    <h3 style="font-size: 24px; margin-bottom: 15px;">Electric Adventure</h3>
+                    <p style="margin-bottom: 20px;">Try our premium electric vehicles at standard rates. Includes free charging at partner stations and a customized eco-friendly route plan.</p>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 25px;">
+                        <li style="margin-bottom: 10px; display: flex; align-items: center;"><span style="color: #4CAF50; margin-right: 10px;">✓</span> Premium vehicle at standard rate</li>
+                        <li style="margin-bottom: 10px; display: flex; align-items: center;"><span style="color: #4CAF50; margin-right: 10px;">✓</span> Free charging at partner stations</li>
+                        <li style="margin-bottom: 10px; display: flex; align-items: center;"><span style="color: #4CAF50; margin-right: 10px;">✓</span> Custom eco-route planning</li>
+                    </ul>
+                    <button style="background: transparent; color: white; border: 2px solid #4CAF50; padding: 12px 30px; border-radius: 5px; font-weight: bold; width: 100%; cursor: pointer;">Book This Offer</button>
+                </div>
+
+                <div style="flex: 1; min-width: 300px; max-width: 380px; background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.2);">
+                    <h3 style="font-size: 24px; margin-bottom: 15px;">Extended Journey</h3>
+                    <p style="margin-bottom: 20px;">For bookings of 7+ days, enjoy 35% off the base rate plus a free vehicle upgrade when available. Perfect for longer explorations.</p>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 25px;">
+                        <li style="margin-bottom: 10px; display: flex; align-items: center;"><span style="color: #4CAF50; margin-right: 10px;">✓</span> 35% off weekly rentals</li>
+                        <li style="margin-bottom: 10px; display: flex; align-items: center;"><span style="color: #4CAF50; margin-right: 10px;">✓</span> Free vehicle upgrade</li>
+                        <li style="margin-bottom: 10px; display: flex; align-items: center;"><span style="color: #4CAF50; margin-right: 10px;">✓</span> Additional driver at no cost</li>
+                    </ul>
+                    <button style="background: transparent; color: white; border: 2px solid #4CAF50; padding: 12px 30px; border-radius: 5px; font-weight: bold; width: 100%; cursor: pointer;">Book This Offer</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="locations" style="padding: 80px 0; background: rgba(0, 0, 0, 0.6);">
+        <div class="container">
+            <h2 class="section-title">Our Locations</h2>
+            <p style="text-align: center; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">With pickup and drop-off points conveniently located across the region, exploring nature's wonders has never been easier.</p>
+
+            <div style="position: relative; width: 100%; height: 0; padding-bottom: 50%; background-color: #3a3a3a; border-radius: 10px; overflow: hidden; margin-bottom: 40px;">
+
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <p style="font-size: 24px; color: rgba(255, 255, 255, 0.7);">Interactive Location Map</p>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
+                <div style="flex: 1; min-width: 240px; background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px;">
+                    <h3 style="font-size: 20px; margin-bottom: 15px;">Downtown Center</h3>
+                    <p style="margin-bottom: 10px;"><strong>Address:</strong> 123 Main Street, Downtown</p>
+                    <p style="margin-bottom: 10px;"><strong>Hours:</strong> 7AM - 9PM Daily</p>
+                    <p style="margin-bottom: 10px;"><strong>Phone:</strong> (555) 123-4567</p>
+                    <a href="#" style="color: #4CAF50; text-decoration: none; display: block; margin-top: 15px;">Get Directions →</a>
+                </div>
+
+                <div style="flex: 1; min-width: 240px; background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px;">
+                    <h3 style="font-size: 20px; margin-bottom: 15px;">Airport Terminal</h3>
+                    <p style="margin-bottom: 10px;"><strong>Address:</strong> Terminal 2, International Airport</p>
+                    <p style="margin-bottom: 10px;"><strong>Hours:</strong> 24/7</p>
+                    <p style="margin-bottom: 10px;"><strong>Phone:</strong> (555) 987-6543</p>
+                    <a href="#" style="color: #4CAF50; text-decoration: none; display: block; margin-top: 15px;">Get Directions →</a>
+                </div>
+
+                <div style="flex: 1; min-width: 240px; background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px;">
+                    <h3 style="font-size: 20px; margin-bottom: 15px;">Lakeside Resort</h3>
+                    <p style="margin-bottom: 10px;"><strong>Address:</strong> 789 Shoreline Dr, Lake View</p>
+                    <p style="margin-bottom: 10px;"><strong>Hours:</strong> 8AM - 8PM Daily</p>
+                    <p style="margin-bottom: 10px;"><strong>Phone:</strong> (555) 456-7890</p>
+                    <a href="#" style="color: #4CAF50; text-decoration: none; display: block; margin-top: 15px;">Get Directions →</a>
+                </div>
+
+                <div style="flex: 1; min-width: 240px; background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px;">
+                    <h3 style="font-size: 20px; margin-bottom: 15px;">Mountain Station</h3>
+                    <p style="margin-bottom: 10px;"><strong>Address:</strong> 456 Alpine Way, Highlands</p>
+                    <p style="margin-bottom: 10px;"><strong>Hours:</strong> 9AM - 7PM Daily</p>
+                    <p style="margin-bottom: 10px;"><strong>Phone:</strong> (555) 234-5678</p>
+                    <a href="#" style="color: #4CAF50; text-decoration: none; display: block; margin-top: 15px;">Get Directions →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" style="padding: 80px 0; background: rgba(0, 0, 0, 0.5);">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="margin-bottom: 30px; background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px;">
+                    <h3 style="margin-bottom: 15px; font-size: 20px;">What documents do I need to rent a car?</h3>
+                    <p>You'll need a valid driver's license, a credit card in the renter's name, and a passport or ID card. For international renters, an International Driving Permit might be required depending on your country of origin.</p>
+                </div>
+
+                <div style="margin-bottom: 30px; background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px;">
+                    <h3 style="margin-bottom: 15px; font-size: 20px;">Is there a minimum age requirement?</h3>
+                    <p>Yes, the standard minimum age is 21 years. Drivers under 25 may be subject to a young driver surcharge. Some specialty and luxury vehicles may have a higher minimum age requirement of 25 or 30 years.</p>
+                </div>
+
+                <div style="margin-bottom: 30px; background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px;">
+                    <h3 style="margin-bottom: 15px; font-size: 20px;">How does the electric vehicle charging work?</h3>
+                    <p>Our electric vehicles come with a charging cable and a map of all charging stations along popular routes. Many of our partner locations offer free charging. The vehicles typically have a range of 250-300 miles per charge.</p>
+                </div>
+
+                <div style="margin-bottom: 30px; background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px;">
+                    <h3 style="margin-bottom: 15px; font-size: 20px;">What is your cancellation policy?</h3>
+                    <p>Cancellations made at least 48 hours before the scheduled pickup time receive a full refund. Cancellations within 24-48 hours receive a 50% refund. Cancellations less than 24 hours before pickup are non-refundable.</p>
+                </div>
+
+                <div style="margin-bottom: 30px; background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px;">
+                    <h3 style="margin-bottom: 15px; font-size: 20px;">Do you offer one-way rentals?</h3>
+                    <p>Yes, we offer one-way rentals between our locations. Additional fees may apply depending on the distance between pickup and drop-off locations. Please specify your one-way rental needs during the booking process.</p>
+                </div>
+
+                <div style="margin-bottom: 30px; background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px;">
+                    <h3 style="margin-bottom: 15px; font-size: 20px;">What happens if I return the car late?</h3>
+                    <p>We provide a 59-minute grace period after your scheduled return time. Returns beyond this period will incur additional hourly charges up to a maximum of one extra day's rental cost.</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="margin-bottom: 20px;">Don't see your question answered here?</p>
+                <a href="#" class="btn" style="display: inline-block;">Contact Our Support Team</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="app-download" style="padding: 80px 0; background: rgba(0, 0, 0, 0.7); text-align: center;">
+        <div class="container">
+            <h2 class="section-title">Download Our Mobile App</h2>
+            <p style="max-width: 600px; margin: 0 auto 40px; font-size: 18px;">Get the ultimate car booking experience on your mobile device. Book, manage, and navigate - all from our convenient app.</p>
+
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 40px;">
+                <div style="background: #000; padding: 12px 25px; border-radius: 8px; display: flex; align-items: center; cursor: pointer; min-width: 200px;">
+                    <div style="margin-right: 15px; font-size: 30px;">📱</div>
+                    <div style="text-align: left;">
+                        <div style="font-size: 12px; opacity: 0.8;">Download on the</div>
+                        <div style="font-size: 18px; font-weight: bold;">App Store</div>
+                    </div>
+                </div>
+
+                <div style="background: #000; padding: 12px 25px; border-radius: 8px; display: flex; align-items: center; cursor: pointer; min-width: 200px;">
+                    <div style="margin-right: 15px; font-size: 30px;">🤖</div>
+                    <div style="text-align: left;">
+                        <div style="font-size: 12px; opacity: 0.8;">GET IT ON</div>
+                        <div style="font-size: 18px; font-weight: bold;">Google Play</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: center; margin-top: 30px;">
+                <div style="width: 150px; height: 300px; background: #222; border-radius: 30px; position: relative; overflow: hidden; border: 8px solid #333;">
+                    <div style="width: 100%; height: 100%; background: rgba(76, 175, 80, 0.2); display: flex; align-items: center; justify-content: center;">
+                        <p>App Screenshot</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 40px;">
+                <div style="flex: 1; min-width: 200px; margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 20px; font-size: 22px;">About EcoRide</h3>
+                    <p style="line-height: 1.6; opacity: 0.9;">EcoRide is committed to providing environmentally conscious travel solutions. Our mission is to connect travelers with nature while minimizing environmental impact through sustainable practices and eco-friendly vehicles.</p>
+                </div>
+
+                <div style="flex: 1; min-width: 200px; margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 20px; font-size: 22px;">Quick Links</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="#" style="color: #fff; text-decoration: none; opacity: 0.9;">Our Fleet</a></li>
+                        <li style="margin-bottom: 10px;"><a href="#" style="color: #fff; text-decoration: none; opacity: 0.9;">Booking Terms</a></li>
+                        <li style="margin-bottom: 10px;"><a href="#" style="color: #fff; text-decoration: none; opacity: 0.9;">Locations</a></li>
+                        <li style="margin-bottom: 10px;"><a href="#" style="color: #fff; text-decoration: none; opacity: 0.9;">Sustainability Initiatives</a></li>
+                    </ul>
+                </div>
+
+                <div style="flex: 1; min-width: 200px; margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 20px; font-size: 22px;">Contact Us</h3>
+                    <p style="margin-bottom: 10px; opacity: 0.9;"><strong>Email:</strong> info@ecoride.com</p>
+                    <p style="margin-bottom: 10px; opacity: 0.9;"><strong>Phone:</strong> +1 (555) 123-4567</p>
+                    <p style="margin-bottom: 10px; opacity: 0.9;"><strong>Main Office:</strong> 123 Green Street, Forestville, CA 94035</p>
+                </div>
+
+                <div style="flex: 1; min-width: 200px; margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 20px; font-size: 22px;">Newsletter</h3>
+                    <p style="margin-bottom: 15px; opacity: 0.9;">Subscribe to receive special offers, travel tips, and updates on our newest vehicles.</p>
+                    <div style="display: flex;">
+                        <input type="email" placeholder="Your email address" style="flex: 1; padding: 10px; border: none; border-radius: 5px 0 0 5px;">
+                        <button style="background: #4CAF50; color: white; border: none; padding: 10px 15px; border-radius: 0 5px 5px 0; cursor: pointer;">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="border: none; border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 20px 0;">
+
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <p style="opacity: 0.7;">&copy; 2025 EcoRide. All rights reserved.</p>
+                <div>
+                    <a href="#" style="color: #fff; margin-left: 15px; opacity: 0.7;">Privacy Policy</a>
+                    <a href="#" style="color: #fff; margin-left: 15px; opacity: 0.7;">Terms of Service</a>
+                    <a href="#" style="color: #fff; margin-left: 15px; opacity: 0.7;">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('car-booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+
+            const pickupLocation = document.getElementById('pickup-location').value;
+            const dropoffLocation = document.getElementById('dropoff-location').value;
+            const pickupDate = document.getElementById('pickup-date').value;
+            const returnDate = document.getElementById('return-date').value;
+            const carType = document.getElementById('car-type').value;
+
+
+            if (!pickupLocation || !dropoffLocation || !pickupDate || !returnDate || !carType) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+
+            alert('Searching for available cars...\nThis would connect to a backend service in a real application.');
+
+
+            console.log({
+                pickupLocation,
+                dropoffLocation,
+                pickupDate,
+                returnDate,
+                carType
+            });
+        });
+
+
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('pickup-date').min = today;
+        document.getElementById('return-date').min = today;
+
+
+        document.getElementById('pickup-date').value = today;
+
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('return-date').value = tomorrow.toISOString().split('T')[0];
+    </script>
+</body>
+
+</html>
