@@ -28,9 +28,9 @@
 ## 📂 Folder Structure
 
 Echo-Rides/
-├── index.html # Main HTML file
-├── style.css # Styling for layout and sections
+├── index.html # Main HTML file including style
 └── README.md # Project documentation
+└── nature.mp4
 
 
 
